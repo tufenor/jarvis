@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>J.A.R.V.I.S.</title>
+  <meta name="theme-color" content="#06080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/interface/estilo.css">
+</head>
+<body>
+  <header class="topo">
+    <div class="marca">J.A.R.V.I.S.<span class="versao" id="versao">—</span></div>
+    <time class="relogio num" id="relogio">--:--:--</time>
+    <ul class="indicadores" aria-label="Conexões">
+      <li class="indicador" id="ind-conexao" data-ok="false"><span class="marcador" aria-hidden="true"></span>PAINEL <b>—</b></li>
+      <li class="indicador" id="ind-placa" data-ok="false"><span class="marcador" aria-hidden="true"></span>PLACA <b>—</b></li>
+      <li class="indicador" id="ind-cerebro" data-ok="false"><span class="marcador" aria-hidden="true"></span>CÉREBRO <b>—</b></li>
+      <li class="indicador" id="ind-mic" data-ok="false"><span class="marcador" aria-hidden="true"></span>MIC <b>—</b></li>
+    </ul>
+  </header>
+
+  <main class="grade">
+    <section class="coluna esquerda">
+      <article class="bloco" aria-labelledby="t-ambiente">
+        <h2 class="rotulo" id="t-ambiente"><span class="idx">01</span>AMBIENTE</h2>
+        <div class="leituras">
+          <div class="leitura">
+            <span class="sub">TEMPERATURA</span>
+            <span class="valor num"><span id="v-temp">--</span><small>°C</small></span>
+          </div>
+          <div class="leitura">
+            <span class="sub">UMIDADE</span>
+            <span class="valor num"><span id="v-umid">--</span><small>%</small></span>
+          </div>
+        </div>
+        <dl class="linhas">
+          <div><dt>MOVIMENTO</dt><dd id="v-mov" class="num">--</dd></div>
+          <div id="linha-luz"><dt>LUZ</dt><dd id="v-led" class="num">--</dd></div>
+          <div><dt>ÚLTIMO CONTATO</dt><dd id="v-contato" class="num">--</dd></div>
+        </dl>
+      </article>
+
+      <article class="bloco" aria-labelledby="t-sistema">
+        <h2 class="rotulo" id="t-sistema"><span class="idx">02</span>SISTEMA</h2>
+        <dl class="linhas">
+          <div><dt>CPU</dt><dd class="num"><span class="barra"><i id="b-cpu"></i></span><span id="v-cpu">--</span></dd></div>
+          <div><dt>MEMÓRIA</dt><dd class="num"><span class="barra"><i id="b-mem"></i></span><span id="v-mem">--</span></dd></div>
+          <div><dt>AGENTE DE ENERGIA</dt><dd id="v-energia" class="num">--</dd></div>
+          <div><dt>JARVIS LIGADO HÁ</dt><dd id="v-uptime" class="num">--</dd></div>
+          <div><dt>VOZES CONHECIDAS</dt><dd id="v-vozes">--</dd></div>
+        </dl>
+      </article>
+
+      <article class="bloco" aria-labelledby="t-alertas">
+        <h2 class="rotulo" id="t-alertas"><span class="idx">03</span>ALERTAS <span class="contador num" id="n-alertas">0</span></h2>
+        <ul class="alertas" id="alertas" aria-live="polite"></ul>
+      </article>
+    </section>
+
+    <section class="centro" aria-label="Núcleo">
+      <div class="moldura-nucleo">
+        <canvas id="nucleo" role="img" aria-label="Núcleo: repouso"></canvas>
+        <span class="canto c1" aria-hidden="true"></span><span class="canto c2" aria-hidden="true"></span>
+        <span class="canto c3" aria-hidden="true"></span><span class="canto c4" aria-hidden="true"></span>
+      </div>
+      <div class="estado-agente">
+        <p class="estado" id="estado" aria-live="polite">REPOUSO</p>
+        <p class="detalhe" id="detalhe">aguardando comando</p>
+      </div>
+      <dl class="falas">
+        <div><dt id="rotulo-falante">VOCÊ</dt><dd id="ultima-fala">—</dd></div>
+        <div><dt>JARVIS</dt><dd id="ultima-resposta">—</dd></div>
+      </dl>
+    </section>
+
+    <section class="coluna direita">
+      <article class="bloco crescer" aria-labelledby="t-atividade">
+        <h2 class="rotulo" id="t-atividade"><span class="idx">04</span>ATIVIDADE</h2>
+        <ol class="log" id="log"></ol>
+      </article>
+
+      <article class="bloco" aria-labelledby="t-acoes">
+        <h2 class="rotulo" id="t-acoes"><span class="idx">05</span>AÇÕES RÁPIDAS</h2>
+        <div class="acoes">
+          <button type="button" class="botao" data-acao="luz_ligar">LUZ · LIGAR</button>
+          <button type="button" class="botao" data-acao="luz_desligar">LUZ · DESLIGAR</button>
+          <button type="button" class="botao" data-acao="luz_auto">LUZ · AUTO</button>
+          <button type="button" class="botao secundario" data-demo="ciclo">DEMO · ESTADOS</button>
+          <button type="button" class="botao secundario" data-demo="erro">DEMO · ERRO</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <footer class="comando">
+    <form id="form-comando" autocomplete="off">
+      <label for="entrada" class="prompt" aria-label="Comando">&gt;</label>
+      <input id="entrada" name="texto" type="text" placeholder="Diga &quot;Jarvis…&quot; ou digite e aperte Enter  ·  Esc cancela" maxlength="500">
+      <button type="submit" class="botao">ENVIAR</button>
+      <button type="button" class="botao mic" id="mic" aria-label="Falar (simulado)">MIC</button>
+    </form>
+  </footer>
+
+  <script src="/interface/nucleo.js"></script>
+  <script src="/interface/app.js"></script>
+</body>
+</html>

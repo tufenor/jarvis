@@ -1,0 +1,6 @@
+{
+  "nome": "automacao_visual",
+  "descricao": "Lê controles visíveis do Windows e automatiza cliques e formulários com confirmação",
+  "ativa": true,
+  "permitido": []
+}

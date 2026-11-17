@@ -1,0 +1,6 @@
+{
+  "nome": "memoria",
+  "descricao": "Guarda e consulta o que o JARVIS aprende sobre o usuário entre sessões",
+  "ativa": true,
+  "permitido": []
+}

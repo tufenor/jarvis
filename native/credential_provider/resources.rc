@@ -1,0 +1,3 @@
+#include "resource.h"
+
+IDB_JARVIS_TILE BITMAP DISCARDABLE "jarvis_tile.bmp"

@@ -1,0 +1,119 @@
+=========================================================
+JARVIS - VIGILANCIA (movimento -> alerta -> video no Telegram)
+=========================================================
+
+O QUE ACONTECE QUANDO O SENSOR MUDA
+-----------------------------------
+1. O PIR da ESP32 detecta movimento
+2. O PC enche a tela de vermelho com "INVASOR DETECTADO"
+3. As caixas do PC falam em voz alta:
+   "O responsável foi comunicado da invasão, e você está sendo gravado."
+4. A webcam grava 10 segundos
+5. O video chega no seu Telegram
+
+Quando o PIR volta de MOVIMENTO para SEM MOVIMENTO, o bot envia uma mensagem
+de retorno ao repouso. A primeira leitura depois de ligar a placa apenas
+estabelece a referencia, evitando alerta falso durante o aquecimento do PIR.
+
+COMO LIGAR (3 passos, uma vez so)
+-----------------------------------
+
+PASSO 1 - Instalar
+   Clique duas vezes em:  setup_seguranca.bat
+   (demora 1-2 minutos, instala o acesso a webcam)
+
+PASSO 2 - Criar o bot do Telegram
+   a) Abra o Telegram e procure por:  @BotFather
+   b) Mande:  /newbot
+   c) Escolha um nome (ex: Jarvis Casa) e um usuario
+      terminado em "bot" (exemplo: jarvis_casa_bot)
+   d) O BotFather devolve um TOKEN parecido com:
+         8123456789:AAFxyz-abcDEFghiJKL...
+   e) Abra config.json no Bloco de Notas e cole esse token
+      no lugar de COLOQUE_AQUI_O_TOKEN_DO_BOTFATHER
+      (mantenha as aspas)
+   f) Salve o arquivo
+
+PASSO 3 - Descobrir o seu chat_id
+   a) No Telegram, abra uma conversa com o bot que voce criou
+      e mande qualquer coisa, tipo "oi"
+   b) Clique duas vezes em:  descobrir_chat_id.bat
+   c) Ele mostra um numero. Cole esse numero no config.json
+      no lugar de COLOQUE_AQUI_O_CHAT_ID
+   d) Salve
+
+PRONTO. Para ligar a vigilancia:
+   Clique duas vezes em:  rodar_vigilancia.bat
+   (deixe a janela aberta; fechar desliga a vigilancia)
+
+O Telegram é opcional quando o Google Drive está ativo: sem token/chat_id,
+o JARVIS ainda mostra o alerta local, grava a webcam e tenta enviar ao Drive.
+
+UPLOAD AUTOMATICO NO GOOGLE DRIVE (OPCIONAL)
+------------------------------------------------
+   1. Confirme que google_credenciais.json existe em dados.
+   2. Clique duas vezes em autorizar_google_drive.bat e aprove o acesso
+      somente na sua conta Google. O escopo é apenas criar os vídeos que
+      o próprio JARVIS enviar (drive.file).
+   3. Os vídeos vão para a pasta "JARVIS - Segurança". O arquivo local
+      é apagado depois que o upload é confirmado quando
+      `apagar_local_apos_upload` está true.
+
+   Durante cada clipe o JARVIS também conta rostos localmente. Dois ou mais
+   rostos são registrados como "outra pessoa detectada no quarto" e essa
+   informação acompanha o vídeo. O PIR continua sendo o gatilho principal;
+   não há captura contínua da webcam sem movimento. Se houver um perfil facial
+   local cadastrado e seu rosto for confirmado sozinho, o alerta vermelho não
+   é exibido; o vídeo ainda pode ser enviado ao Drive para auditoria. Em baixa
+   luz ou sem perfil, o sistema não assume que é você e mantém o alerta.
+
+   A autorização do Drive é separada da Agenda/YouTube para evitar conflito
+   de escopos. Sem o token de Drive, a vigilância continua funcionando e
+   registra no log que o upload foi ignorado.
+
+COMANDOS NO CHAT PRIVADO DO BOT
+-----------------------------------
+Com a vigilancia rodando, o bot também aceita comandos do chat privado
+configurado em telegram_chat_id:
+   /ajuda          mostra os comandos
+   /status         consulta temperatura, umidade, movimento e luz
+   /luz_ligar      liga a luz da ESP32
+   /luz_desligar   desliga a luz da ESP32
+   /luz_auto       devolve a luz ao modo automático
+
+Mensagens de grupo, outros usuários e texto livre não são executados. O bot
+não aceita comandos de PC nem comandos arbitrários. As consultas são iniciadas
+pelo computador; não é preciso abrir portas no modem/roteador.
+
+SEGURANCA DA CHAVE
+-----------------------------------
+Se a chave do bot foi enviada em uma conversa ou exposta, revogue-a no
+@BotFather (/revoke), gere uma nova e atualize telegram_token localmente em
+config.json. Nunca envie a chave nova por chat. O teste local não valida a
+conexão real do bot; primeiro envie /start ao bot no Telegram.
+
+TESTAR SO O ALERTA (sem Telegram)
+-----------------------------------
+   Clique duas vezes em:  testar_alerta.bat
+   Serve para ver a tela vermelha e ouvir a voz.
+
+AJUSTES (arquivo config.json)
+-----------------------------------
+   segundos_gravacao   -> tamanho do video (padrao 10)
+   cooldown_segundos   -> intervalo minimo entre alertas (padrao 60)
+   texto_do_alerta     -> o que a voz vai falar
+   indice_camera       -> troque para 1 se pegar a webcam errada
+   modo                -> "serial" usa o cabo USB
+                          "http" usa a Wi-Fi (preencha ip_da_placa)
+
+AVISO IMPORTANTE SOBRE O CABO USB
+-----------------------------------
+No modo "serial" a vigilancia ocupa a porta COM7.
+Enquanto ela estiver rodando, os scripts de teste da pasta
+scripts\ nao conseguem usar a placa. Feche a vigilancia antes
+de rodar testes, ou mude para o modo "http".
+
+O TOKEN E UMA SENHA
+-----------------------------------
+Quem tiver o token controla o seu bot. Nao poste o config.json
+em lugar nenhum nem mande o token por chat.

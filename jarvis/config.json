@@ -1,0 +1,120 @@
+{
+  "host": "0.0.0.0",
+  "porta": 8080,
+  "placa": {
+    "url": "http://192.168.50.20",
+    "intervalo_s": 3,
+    "timeout_s": 2.5
+  },
+  "agente_energia": {
+    "url": "http://192.168.50.10:8765",
+    "intervalo_s": 10,
+    "token": "./agente/TOKEN.txt"
+  },
+  "cerebro": {
+    "tipo": "anthropic",
+    "modelo": "claude-haiku-5-5",
+    "nome": "Claude Haiku 5.5",
+    "esforco": "low",
+    "ollama_url": "http://127.0.0.1:11434",
+    "ollama_modelo": "qwen3.5:4b"
+  },
+  "programas": {
+    "bloco de notas": "notepad.exe",
+    "calculadora": "calc.exe",
+    "explorador de arquivos": "explorer.exe",
+    "gerenciador de tarefas": "taskmgr.exe",
+    "paint": "mspaint.exe",
+    "configuracoes do windows": "ms-settings:",
+    "chrome": "chrome.exe",
+    "discord": "discord:",
+    "whatsapp": "whatsapp:"
+  },
+  "programacao": {
+    "raiz": "./projetos"
+  },
+  "recursos": {
+    "luz": false
+  },
+  "voz": {
+    "modelo": "pt_BR-faber-medium",
+    "velocidade": 1.02,
+    "efeito": 0.35,
+    "gravidade": 0.94
+  },
+  "microfone": {
+    "nome": "Microphone (USB)",
+    "nomes": [
+      "Microphone (USB)"
+    ],
+    "automatico": false,
+    "whisper": "small",
+    "beam": 3,
+    "confianca_minima": -0.72,
+    "temperatura": [0.0, 0.2],
+    "compressao_maxima": 2.4,
+    "silencio_fim_s": 1.10,
+    "limiar_inicio": 0.30,
+    "limiar_silencio": 0.18
+  },
+  "janela": {
+    "tela_chamada": 1,
+    "tela_repouso": 1,
+    "repouso_apos_s": 15
+  },
+  "economia_energia": {
+    "ativar": true,
+    "inatividade_apos_s": 300,
+    "verificar_a_cada_s": 5,
+    "brilho_ausente": 25,
+    "brilho_retorno": 75,
+    "respeitar_presenca_mobile": true
+  },
+  "bloqueio_pos_login": {
+    "ativar": false,
+    "frase_liberar": "liberar tela",
+    "exigir_voz_conhecida": true,
+    "vozes_permitidas": []
+  },
+  "conversa": {
+    "aberta_s": 4,
+    "exigir_voz_conhecida": true,
+    "exigir_chamado_a_cada_frase": true
+  },
+  "diario": {
+    "escuta_s": 300
+  },
+  "boas_vindas": {
+    "ativar": false,
+    "atraso_s": 8,
+    "esperar_voz_s": 60,
+    "timeout_s": 5
+  },
+  "vozes": {
+    "limiar": 0.55,
+    "razao_interrupcao": 2.8
+  },
+  "ambiente": {
+    "ignorar_audio_do_pc": true,
+    "alto_falantes": [
+      "Alto-falantes (Realtek(R) Audio)",
+      "Alto-falantes (USB ou Bluetooth)"
+    ]
+  },
+  "loopback_cancellation": true,
+  "vad_mode": 2,
+  "microfones_simultaneos": false,
+  "energy_threshold": 10,
+  "vad_rms_min": 0.0001,
+  "vad_snr_threshold_db": 1.2,
+  "sensibilidade": "maxima",
+  "monitor_alvo": 2,
+  "screen_offset_x": 1920,
+  "reconhecimento_facial": {
+    "ativar": false,
+    "nome": "usuario",
+    "camera": 0,
+    "limiar": 0.363,
+    "exigir_prova_vida": true
+  }
+}

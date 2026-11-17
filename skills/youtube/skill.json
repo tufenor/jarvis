@@ -1,0 +1,6 @@
+{
+  "nome": "youtube",
+  "descricao": "Procura e toca vídeos e música do YouTube",
+  "ativa": true,
+  "permitido": []
+}

@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#071018">
+  <meta name="description" content="Painel móvel seguro do JARVIS">
+  <link rel="manifest" href="/mobile-manifest.webmanifest">
+  <link rel="stylesheet" href="/interface/mobile.css">
+  <title>JARVIS · Mobile</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">J.A.R.V.I.S. / COMPANION</p>
+      <h1>Centro móvel</h1>
+    </div>
+    <div class="connection" id="connection" data-state="offline">OFFLINE</div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="core-mark" aria-hidden="true">J</div>
+      <div>
+        <p class="eyebrow">SESSÃO REMOTA</p>
+        <h2 id="hero-title">Controle o Jarvis do A53</h2>
+        <p class="muted" id="hero-detail">Conectando ao núcleo local…</p>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Estado do sistema">
+      <article class="card metric"><span>PC</span><strong id="pc-state">—</strong></article>
+      <article class="card metric"><span>PLACA</span><strong id="board-state">—</strong></article>
+      <article class="card metric"><span>MOVIMENTO</span><strong id="motion-state">—</strong></article>
+      <article class="card metric"><span id="phone-label">A53</span><strong id="phone-state">—</strong></article>
+      <article class="card metric"><span>TEMPERATURA</span><strong id="temperature">—</strong></article>
+      <article class="card metric"><span>UMIDADE</span><strong id="humidity">—</strong></article>
+    </section>
+
+    <section class="card command-card" aria-labelledby="command-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">COMANDO</p>
+          <h2 id="command-title">Fale com o JARVIS</h2>
+        </div>
+        <button class="ghost" id="install" type="button" hidden>INSTALAR APP</button>
+      </div>
+      <form id="command-form" autocomplete="off">
+        <label for="command">Pedido</label>
+        <textarea id="command" rows="2" maxlength="500" placeholder="Ex.: Jarvis, abra o navegador"></textarea>
+        <div class="actions">
+          <button class="primary" type="submit">ENVIAR</button>
+          <button class="secondary" id="push-to-talk" type="button" aria-pressed="false">FALAR</button>
+          <button class="secondary" id="listen" type="button">OUVIR NO PC</button>
+          <button class="secondary" id="cancel" type="button">CANCELAR</button>
+        </div>
+      </form>
+      <p class="notice" id="notice" role="status" aria-live="polite">Ações perigosas continuam exigindo confirmação do JARVIS.</p>
+    </section>
+
+    <section class="card presence-card" aria-labelledby="presence-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">PRESENÇA</p>
+          <h2 id="presence-title">Sinal do aparelho</h2>
+        </div>
+        <button class="secondary compact" id="check-presence" type="button">VERIFICAR AGORA</button>
+      </div>
+      <label class="device-picker" for="device-select">Este aparelho
+        <select id="device-select">
+          <option value="a53">Galaxy A53</option>
+          <option value="iphone">iPhone</option>
+        </select>
+      </label>
+      <p class="muted" id="presence-detail">A primeira verificação ocorre quando o sensor detectar movimento; depois, no máximo uma vez por hora.</p>
+    </section>
+
+    <section class="card activity-card" aria-labelledby="activity-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">JARVIS</p>
+          <h2 id="activity-title">Última resposta</h2>
+        </div>
+      </div>
+      <p class="response" id="response">—</p>
+      <p class="muted" id="last-speech">Nenhum comando enviado.</p>
+    </section>
+  </main>
+
+  <script src="/interface/mobile.js"></script>
+</body>
+</html>

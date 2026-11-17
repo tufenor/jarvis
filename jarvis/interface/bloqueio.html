@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+
+<script id="jarvis-voice-unlock-bridge">
+(function () {
+  // O áudio real é capturado pelo processo Python do JARVIS. A página só o
+  // controla e mostra seu nível; capturar uma segunda vez aqui disputa o driver.
+  if (navigator.mediaDevices && !window.__jarvisPatchedGUM) {
+    window.__jarvisPatchedGUM = true;
+    navigator.mediaDevices.getUserMedia = function () {
+      return Promise.reject(new Error("O áudio é controlado pelo JARVIS."));
+    };
+  }
+}());
+</script>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#05070d">
+  <title>J.A.R.V.I.S. — secure session</title>
+  <link id="skin" rel="stylesheet" href="/interface/bloqueio.css">
+<script id="jarvis-tela2-mover">
+window.addEventListener('load', function() {
+  try {
+    var larguraTela1 = window.screen.availWidth || 1920;
+    window.moveTo(larguraTela1 + 10, 10);
+  } catch(e) {}
+});
+</script>
+</head>
+<body>
+  <div class="scene" aria-hidden="true">
+    <canvas id="campo"></canvas>
+    <div class="grid-floor"></div>
+    <div class="scanlines"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="identity">
+      <span class="identity-mark">J</span>
+      <span class="identity-name">J.A.R.V.I.S.</span>
+      <span class="identity-sub">PERSONAL OPERATING SYSTEM</span>
+    </div>
+    <div class="session-readout">
+      <span class="pulse-dot"></span>
+      <span>SECURE SESSION</span>
+      <b id="clock">00:00:00</b>
+    </div>
+  </header>
+
+  <aside class="hud hud-left" aria-hidden="true">
+    <div class="hud-label">SYSTEM TELEMETRY</div>
+    <div class="telemetry-row"><span>NODE</span><b>01 / LOCAL</b></div>
+    <div class="telemetry-row"><span>ENCRYPTION</span><b class="cyan">AES-256</b></div>
+    <div class="telemetry-row"><span>SESSION</span><b class="green">LOCKED</b></div>
+    <div class="signal-line"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="hud-foot">LOCAL CORE // 127.0.0.1</div>
+  </aside>
+
+  <aside class="hud hud-right" aria-hidden="true">
+    <div class="hud-label">AUTH PROTOCOL</div>
+    <div class="protocol-step active"><span>01</span><b>VOICE GATE</b><i>READY</i></div>
+    <div class="protocol-step"><span>02</span><b>CODE CHANNEL</b><i>STANDBY</i></div>
+    <div class="protocol-step"><span>03</span><b>SESSION OPEN</b><i>LOCKED</i></div>
+    <div class="protocol-step" id="face-step"><span>04</span><b>FACE FALLBACK</b><i id="face-state">STANDBY</i></div>
+    <div class="hud-foot">NO REMOTE COMMANDS</div>
+  </aside>
+
+  <main class="lock-layout" aria-labelledby="titulo">
+    <div class="eyebrow"><span>ACCESS CONTROL</span><i></i><span>JARVIS / 01</span></div>
+
+    <section class="core-stage" aria-label="Núcleo de segurança animado">
+      <div class="orbit orbit-one"><span></span><span></span><span></span></div>
+      <div class="orbit orbit-two"><span></span><span></span></div>
+      <div class="core-halo"></div>
+      <div class="core">
+        <div class="core-grid"></div>
+        <div class="core-ring ring-back"></div>
+        <div class="core-ring ring-front"></div>
+        <div class="core-sweep"></div>
+        <div class="core-letter">J</div>
+        <div class="core-status">LOCKED</div>
+      </div>
+      <div class="core-tag tag-left"><span></span>NEURAL CORE</div>
+      <div class="core-tag tag-right">AUTH WAITING<span></span></div>
+    </section>
+
+    <section class="title-block">
+      <p class="overline">J.A.R.V.I.S. // AUTHENTICATION LAYER</p>
+      <h1 id="titulo">CONEXÃO <em>PROTEGIDA</em></h1>
+      <p class="subtitle">A sessão está isolada. O núcleo aguarda uma autorização do operador.</p>
+    </section>
+
+    <section class="access-card" aria-label="Desbloqueio do JARVIS">
+      <div class="card-header">
+        <div class="lock-symbol"><span></span></div>
+        <div><b>AUTHORIZATION REQUIRED</b><small id="access-state">AWAITING AUTHORIZATION</small></div>
+        <div class="live-badge"><i></i><span>MIC LIVE</span></div>
+      </div>
+
+      <div class="voice-meter" aria-hidden="true">
+        <span class="meter-name">VOICE CHANNEL</span>
+        <div class="meter-bars" id="meter-bars"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        <span class="meter-value" id="meter-value">LISTENING</span>
+      </div>
+
+      <p class="prompt"><span class="prompt-index">01</span> Diga <strong>“Jarvis, liberar tela”</strong> com sua voz cadastrada<br><span id="face-prompt">Ou use a identificação visual com prova de presença.</span></p>
+      <div class="divider"><span>OU CÓDIGO LOCAL</span></div>
+
+      <form id="form-codigo" autocomplete="off" novalidate>
+        <label for="codigo">NUMERIC ACCESS CHANNEL</label>
+        <div class="code-field">
+          <span class="field-prefix">//</span>
+          <input id="codigo" name="codigo" type="password" inputmode="numeric"
+                 pattern="[0-9]*" maxlength="64" autocomplete="off"
+                 spellcheck="false" aria-describedby="mensagem" autofocus>
+          <span class="enter-hint">ENTER ↵</span>
+        </div>
+        <div class="field-meta"><span>ONLY DIGITS / BACKSPACE / ENTER</span><span id="contador">00 / 64</span></div>
+      </form>
+      <p id="mensagem" class="mensagem" role="status" aria-live="polite">Microfone ativo // comandos bloqueados</p>
+    </section>
+
+    <div class="bottom-readout" aria-hidden="true">
+      <span><i class="tiny-dot"></i> LOCAL AUTHENTICATION</span>
+      <span>NO REMOTE INPUT</span>
+      <span>© J.A.R.V.I.S. CORE</span>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      "use strict";
+      var css = document.getElementById("skin");
+      if (location.protocol === "file:") css.href = "bloqueio.css";
+
+      var form = document.getElementById("form-codigo");
+      var codigo = document.getElementById("codigo");
+      var mensagem = document.getElementById("mensagem");
+      var contador = document.getElementById("contador");
+      var estado = document.getElementById("access-state");
+      var meterValue = document.getElementById("meter-value");
+      var bars = Array.prototype.slice.call(document.querySelectorAll("#meter-bars i"));
+      var preview = location.protocol === "file:";
+
+      function atualizarContador() {
+        contador.textContent = String(codigo.value.length).padStart(2, "0") + " / 64";
+      }
+      function falarEstado(texto, classe) {
+        mensagem.textContent = texto;
+        if (classe) document.body.dataset.estado = classe;
+      }
+
+      // A superfície não tem menus, arraste ou comandos de teclado. No campo
+      // de recuperação, só passam dígitos, apagar e Enter.
+      ["contextmenu", "dragstart", "selectstart", "dblclick"].forEach(function (tipo) {
+        document.addEventListener(tipo, function (ev) { ev.preventDefault(); }, true);
+      });
+      function teclaPermitida(ev) {
+        return ev.target === codigo && (/^[0-9]$/.test(ev.key) ||
+          ev.key === "Enter" || ev.key === "Backspace" || ev.key === "Delete");
+      }
+      document.addEventListener("keydown", function (ev) {
+        if (teclaPermitida(ev)) return;
+        ev.preventDefault(); ev.stopPropagation();
+      }, true);
+      document.addEventListener("keyup", function (ev) {
+        if (teclaPermitida(ev)) return;
+        ev.preventDefault();
+      }, true);
+      document.addEventListener("keypress", function (ev) {
+        if (teclaPermitida(ev)) return;
+        ev.preventDefault();
+      }, true);
+      codigo.addEventListener("paste", function (ev) { ev.preventDefault(); });
+      codigo.addEventListener("input", function () {
+        codigo.value = codigo.value.replace(/[^0-9]/g, "");
+        atualizarContador();
+      });
+
+      function atualizarBarras() {
+        bars.forEach(function (bar, index) {
+          var altura = 18 + Math.round(Math.random() * 55);
+          bar.style.height = altura + "%";
+          bar.style.opacity = index > 25 ? "0.35" : (0.45 + Math.random() * 0.55).toFixed(2);
+        });
+      }
+      setInterval(atualizarBarras, 180);
+      atualizarBarras();
+
+      function atualizarRelogio() {
+        var agora = new Date();
+        document.getElementById("clock").textContent = [agora.getHours(), agora.getMinutes(), agora.getSeconds()]
+          .map(function (n) { return String(n).padStart(2, "0"); }).join(":");
+      }
+      setInterval(atualizarRelogio, 1000); atualizarRelogio(); atualizarContador();
+
+      if (preview) {
+        estado.textContent = "LOCAL PREVIEW";
+        meterValue.textContent = "PREVIEW";
+        falarEstado("Pré-visualização local // abra pelo JARVIS para liberar", "preview");
+      } else {
+        function acompanharLiberacao(info) {
+          if (!info.bloqueada) {
+            estado.textContent = "ACCESS GRANTED";
+            meterValue.textContent = "OPEN";
+            document.body.classList.add("liberando");
+            window.setTimeout(function () { window.location.replace("/"); }, 180);
+            return true;
+          }
+          return false;
+        }
+
+        function atualizarStatusBloqueio() {
+          fetch("/api/bloqueio/status", {cache: "no-store"}).then(function (res) {
+            return res.json();
+          }).then(function (info) {
+          if (acompanharLiberacao(info)) return;
+          if (!info.codigo_configurado) {
+            form.classList.add("indisponivel");
+            codigo.disabled = true;
+            falarEstado("Código local não configurado // use a voz cadastrada", "waiting");
+          }
+          }).catch(function () {
+            falarEstado("Canal local aguardando conexão", "offline");
+          });
+        }
+        atualizarStatusBloqueio();
+        window.setInterval(atualizarStatusBloqueio, 700);
+
+        function atualizarRosto() {
+          fetch("/api/bloqueio/rosto/status", {cache: "no-store"}).then(function (res) {
+            return res.json();
+          }).then(function (info) {
+            var estadoRosto = document.getElementById("face-state");
+            var textoRosto = document.getElementById("face-prompt");
+            if (!estadoRosto || !textoRosto) return;
+            if (!info.ativado) {
+              estadoRosto.textContent = "OFF";
+              textoRosto.textContent = "Identificação visual desativada // código local disponível.";
+              return;
+            }
+            if (!info.modelos) {
+              estadoRosto.textContent = "MODEL";
+              textoRosto.textContent = "Modelos faciais ausentes // código local disponível.";
+              return;
+            }
+            if (!info.perfil) {
+              estadoRosto.textContent = "ENROLL";
+              textoRosto.textContent = "Cadastre seu rosto localmente para habilitar o fallback visual.";
+              return;
+            }
+            estadoRosto.textContent = info.ultimo && info.ultimo.reconhecido ? "CONFIRMED" : "READY";
+            textoRosto.textContent = info.ultimo && info.ultimo.motivo ?
+              "Face fallback // " + info.ultimo.motivo : "Ou use a identificação visual com prova de presença.";
+          }).catch(function () {});
+        }
+        atualizarRosto();
+        window.setInterval(atualizarRosto, 1500);
+      }
+
+      form.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var valor = codigo.value;
+        if (!valor || preview) {
+          if (preview) falarEstado("Pré-visualização local // servidor não conectado", "preview");
+          return;
+        }
+        estado.textContent = "VERIFYING";
+        meterValue.textContent = "CHECKING";
+        falarEstado("Validando canal numérico…", "checking");
+        fetch("/api/bloqueio/desbloquear", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ codigo: valor })
+        }).then(function (res) {
+          return res.json().then(function (dados) { return { ok: res.ok, dados: dados }; });
+        }).then(function (resultado) {
+          if (resultado.ok) {
+            estado.textContent = "ACCESS GRANTED";
+            meterValue.textContent = "OPEN";
+            falarEstado("Tela liberada // sessão iniciada", "granted");
+            document.body.classList.add("liberando");
+            window.setTimeout(function () { window.location.replace("/"); }, 180);
+            return;
+          }
+          codigo.value = ""; atualizarContador(); estado.textContent = "ACCESS DENIED";
+          meterValue.textContent = "RETRY";
+          falarEstado(resultado.dados.detail || "Código local incorreto.", "denied");
+          codigo.focus();
+        }).catch(function () {
+          estado.textContent = "CHANNEL ERROR";
+          meterValue.textContent = "OFFLINE";
+          falarEstado("Não foi possível validar o canal local", "offline");
+        });
+      });
+
+      // Movimento sutil do HUD e campo de partículas: não é um comando, apenas
+      // mantém a cena viva quando o operador move o mouse.
+      var campo = document.getElementById("campo");
+      var contexto = campo.getContext("2d");
+      var pontos = [];
+      var ponteiro = { x: 0.5, y: 0.5 };
+      function redimensionar() {
+        campo.width = window.innerWidth * devicePixelRatio;
+        campo.height = window.innerHeight * devicePixelRatio;
+        campo.style.width = window.innerWidth + "px";
+        campo.style.height = window.innerHeight + "px";
+        contexto.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+        pontos = Array.from({ length: Math.min(82, Math.max(42, Math.round(window.innerWidth / 22))) }, function () {
+          return { x: Math.random() * window.innerWidth, y: Math.random() * window.innerHeight,
+            r: Math.random() * 1.6 + .25, v: Math.random() * .18 + .04, a: Math.random() * .7 + .15 };
+        });
+      }
+      function desenhar() {
+        var largura = window.innerWidth, altura = window.innerHeight;
+        contexto.clearRect(0, 0, largura, altura);
+        pontos.forEach(function (p) {
+          p.y -= p.v; if (p.y < -4) { p.y = altura + 4; p.x = Math.random() * largura; }
+          contexto.fillStyle = "rgba(76, 219, 255, " + p.a.toFixed(2) + ")";
+          contexto.beginPath(); contexto.arc(p.x, p.y, p.r, 0, Math.PI * 2); contexto.fill();
+        });
+        for (var i = 0; i < pontos.length; i++) for (var j = i + 1; j < pontos.length; j++) {
+          var dx = pontos[i].x - pontos[j].x, dy = pontos[i].y - pontos[j].y;
+          var distancia = Math.sqrt(dx * dx + dy * dy);
+          if (distancia < 112) {
+            contexto.strokeStyle = "rgba(46, 170, 201, " + ((1 - distancia / 112) * .16).toFixed(3) + ")";
+            contexto.lineWidth = .6; contexto.beginPath(); contexto.moveTo(pontos[i].x, pontos[i].y);
+            contexto.lineTo(pontos[j].x, pontos[j].y); contexto.stroke();
+          }
+        }
+        document.documentElement.style.setProperty("--px", ((ponteiro.x - .5) * 12).toFixed(2) + "px");
+        document.documentElement.style.setProperty("--py", ((ponteiro.y - .5) * 8).toFixed(2) + "px");
+        requestAnimationFrame(desenhar);
+      }
+      window.addEventListener("resize", redimensionar);
+      document.addEventListener("mousemove", function (ev) {
+        ponteiro.x = ev.clientX / Math.max(1, window.innerWidth);
+        ponteiro.y = ev.clientY / Math.max(1, window.innerHeight);
+      }, { passive: true });
+      redimensionar(); requestAnimationFrame(desenhar);
+    }());
+  </script>
+<div id="jarvis-multimic-hud" style="position:fixed;bottom:18px;right:18px;z-index:9999;background:rgba(6,14,26,0.9);border:1px solid rgba(0,240,255,0.5);border-radius:10px;padding:10px 14px;font-family:monospace;color:#ccf6ff;min-width:260px;"><div style="display:flex;justify-content:space-between;font-size:11px;color:#00f0ff;margin-bottom:6px;"><span>AUDIO MANAGER // MULTI-MIC</span><span id="j-mic-badge">MULTI-SNR</span></div><select id="j-mic-sel" style="width:100%;background:#040a14;color:#e0faff;border:1px solid rgba(0,240,255,0.4);border-radius:5px;padding:5px;font-size:11px;margin-bottom:6px;"><option value="multi">⚡ Multi-Microfone (Auto SNR / Failover)</option></select><div style="display:flex;align-items:center;gap:8px;font-size:10px;"><span>SINAL:</span><div style="flex:1;height:6px;background:#0a192f;border-radius:3px;overflow:hidden;"><div id="j-mic-bar" style="width:5%;height:100%;background:linear-gradient(90deg,#00f0ff,#00ff88);"></div></div><span id="j-mic-st">ATIVO</span></div></div><script>(function(){const sel=document.getElementById('j-mic-sel'),bar=document.getElementById('j-mic-bar'),st=document.getElementById('j-mic-st'),bd=document.getElementById('j-mic-badge');let str=null,ctx=null;async function init(){if(!navigator.mediaDevices)return;try{str=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true,autoGainControl:true}});meter(str);const devs=await navigator.mediaDevices.enumerateDevices();sel.innerHTML='<option value="multi">⚡ Multi-Microfone (Auto SNR / Failover)</option>';devs.filter(d=>d.kind==='audioinput').forEach((m,i)=>{const o=document.createElement('option');o.value=m.deviceId;o.textContent='🎙️ '+(m.label||'Microfone '+(i+1));sel.appendChild(o);});navigator.mediaDevices.ondevicechange=init;}catch(e){}}function meter(s){try{if(ctx)ctx.close();ctx=new(window.AudioContext||window.webkitAudioContext)();const src=ctx.createMediaStreamSource(s),an=ctx.createAnalyser();an.fftSize=256;src.connect(an);const d=new Uint8Array(an.frequencyBinCount);(function t(){an.getByteFrequencyData(d);let v=d.reduce((a,b)=>a+b,0)/d.length,p=Math.min(100,Math.max(4,Math.round((v/90)*100)));bar.style.width=p+'%';st.textContent=p>18?'VOZ DETECTADA':'ESCUTANDO';requestAnimationFrame(t);})();}catch(e){}}sel.onchange=async()=>{bd.textContent=sel.value==='multi'?'MULTI-SNR':'MANUAL';if(sel.value!=='multi'){if(str)str.getTracks().forEach(t=>t.stop());str=await navigator.mediaDevices.getUserMedia({audio:{deviceId:{exact:sel.value},echoCancellation:true,noiseSuppression:true,autoGainControl:true}});meter(str);}};init();})();</script>
+  <script id="jarvis-audio-real">
+    (function () {
+      var seletor = document.getElementById("j-mic-sel");
+      var barra = document.getElementById("j-mic-bar");
+      var estado = document.getElementById("j-mic-st");
+      var etiqueta = document.getElementById("j-mic-badge");
+      if (!seletor || !barra || !estado || !etiqueta) return;
+
+      function preencher(info) {
+        var anterior = seletor.value;
+        seletor.innerHTML = "";
+        var multi = document.createElement("option");
+        multi.value = "multi";
+        multi.textContent = "⚡ Multi-Microfone (melhor sinal)";
+        seletor.appendChild(multi);
+        (info.microfones || []).forEach(function (nome) {
+          var opcao = document.createElement("option");
+          opcao.value = nome;
+          opcao.textContent = "🎙️ " + nome;
+          seletor.appendChild(opcao);
+        });
+        seletor.value = info.modo === "manual" && info.selecionado ? info.selecionado : "multi";
+        if (seletor.value === "") seletor.value = anterior || "multi";
+        var nivel = Math.max(4, Math.min(100, Math.round((info.nivel || 0) * 100)));
+        barra.style.width = nivel + "%";
+        etiqueta.textContent = info.modo === "manual" ? "MANUAL" : "MULTI-SNR";
+        estado.textContent = (info.ativos || []).length ?
+          (nivel > 18 ? "VOZ DETECTADA" : "ESCUTANDO") : "INICIANDO";
+      }
+
+      function consultar() {
+        return fetch("/api/bloqueio/microfones", {cache: "no-store"})
+          .then(function (r) { if (!r.ok) throw new Error("áudio indisponível"); return r.json(); })
+          .then(preencher)
+          .catch(function () { estado.textContent = "AGUARDANDO JARVIS"; });
+      }
+
+      seletor.addEventListener("change", function () {
+        estado.textContent = "TROCANDO";
+        fetch("/api/bloqueio/microfone", {
+          method: "POST",
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({nome: seletor.value})
+        }).then(function (r) {
+          if (!r.ok) throw new Error("troca recusada");
+          return r.json();
+        }).then(preencher).catch(function () {
+          estado.textContent = "REINICIE PARA NOVO MICROFONE";
+        });
+      });
+      consultar();
+      window.setInterval(consultar, 800);
+    }());
+  </script>
+</body>
+</html>

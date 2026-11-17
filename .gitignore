@@ -1,0 +1,29 @@
+# ambientes
+.venv/
+venv_voice/
+__pycache__/
+*.pyc
+
+# segredos (nunca versionar)
+agente/TOKEN.txt
+seguranca/config.json
+scripts/_wifi_temp.json
+wifi.json
+
+# logs e lixeira
+*.log
+_lixeira/
+_publicacao/
+_quarentena/
+.env
+modelos/
+build/
+dist/
+amostras_voz/
+jarvis.log
+dados/
+integracoes/alexa/config_local.json
+integracoes/alexa/privado/
+integracoes/alexa/*.zip
+integracoes/alexa/*configurado*.zip
+skills/__pycache__/

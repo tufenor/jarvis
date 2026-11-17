@@ -1,0 +1,6 @@
+{
+  "nome": "programacao",
+  "descricao": "Cria, lê, edita e testa código somente na pasta de projetos permitida",
+  "ativa": true,
+  "permitido": []
+}

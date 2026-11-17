@@ -1,0 +1,11 @@
+{
+  "name": "JARVIS Mobile",
+  "short_name": "JARVIS",
+  "start_url": "/mobile",
+  "display": "standalone",
+  "background_color": "#071018",
+  "theme_color": "#071018",
+  "lang": "pt-BR",
+  "description": "Controle móvel local do JARVIS",
+  "icons": []
+}

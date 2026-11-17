@@ -1,0 +1,20 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "jarvis",
+      "intents": [
+        {"name": "ConectarIntent", "slots": [], "samples": ["conectar", "conecte ao jarvis", "ligar o computador", "acordar o computador", "abrir", "abrir o jarvis", "iniciar o jarvis", "chamar o jarvis", "despertar o jarvis"]},
+        {"name": "EstadoIntent", "slots": [], "samples": ["verificar conexão", "qual é o estado", "o computador já acordou", "já conectou"]},
+        {"name": "RespostaIntent", "slots": [], "samples": ["consultar resposta", "qual foi a resposta", "já terminou"]},
+        {"name": "ComandoIntent", "slots": [{"name": "pedido", "type": "AMAZON.SearchQuery"}], "samples": ["executar {pedido}", "execute {pedido}", "perguntar {pedido}", "pergunte {pedido}", "peça ao jarvis para {pedido}"]},
+        {"name": "AMAZON.HelpIntent", "samples": []},
+        {"name": "AMAZON.StopIntent", "samples": []},
+        {"name": "AMAZON.CancelIntent", "samples": []},
+        {"name": "AMAZON.YesIntent", "samples": []},
+        {"name": "AMAZON.NoIntent", "samples": []},
+        {"name": "AMAZON.FallbackIntent", "samples": []}
+      ],
+      "types": []
+    }
+  }
+}

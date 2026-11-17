@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>J.A.R.V.I.S.</title>
+  <meta name="theme-color" content="#06080a">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/interface/login.css">
+</head>
+<body>
+  <main class="porta">
+    <h1 class="marca">J.A.R.V.I.S.</h1>
+    <p class="aviso">Acesso restrito</p>
+    <form id="form" autocomplete="off">
+      <label for="senha">SENHA</label>
+      <input id="senha" type="password" autocomplete="current-password" autofocus>
+      <button type="submit">ENTRAR</button>
+    </form>
+    <p class="erro" id="erro" role="alert" hidden></p>
+  </main>
+  <script>
+    var form = document.getElementById("form");
+    var erro = document.getElementById("erro");
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      erro.hidden = true;
+      fetch("/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ senha: document.getElementById("senha").value })
+      }).then(function (r) {
+        if (r.ok) { location.href = "/"; return; }
+        return r.json().then(function (d) {
+          // 503 = ninguém definiu senha ainda; dizer isso evita o usuário
+          // ficar tentando senha num JARVIS que nunca teve uma.
+          erro.textContent = r.status === 503
+            ? "Este JARVIS ainda não tem senha. Defina no PC com: python -m jarvis --senha"
+            : "Senha errada.";
+          erro.hidden = false;
+          document.getElementById("senha").select();
+        });
+      }).catch(function () {
+        erro.textContent = "Não consegui falar com o JARVIS.";
+        erro.hidden = false;
+      });
+    });
+  </script>
+</body>
+</html>

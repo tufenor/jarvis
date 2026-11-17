@@ -1,0 +1,6 @@
+{
+  "nome": "google",
+  "descricao": "Google Agenda (ler e criar eventos) e Google Drive (procurar e abrir)",
+  "ativa": true,
+  "permitido": []
+}

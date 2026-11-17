@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">JARVIS Companion</string>
+
+    <string name="status_online">ONLINE</string>
+    <string name="status_offline">OFFLINE</string>
+    <string name="status_reconnecting">RECONECTANDO</string>
+    <string name="status_waiting_auth">AGUARDANDO LOGIN</string>
+    <string name="status_error">ERRO</string>
+
+    <string name="login_title">Entrar no núcleo</string>
+    <string name="login_hint">Senha do painel do JARVIS</string>
+    <string name="login_button">ENTRAR</string>
+
+    <string name="pc_label">PC</string>
+    <string name="board_label">PLACA</string>
+    <string name="motion_label">MOVIMENTO</string>
+    <string name="device_label">A53</string>
+    <string name="temperature_label">TEMPERATURA</string>
+    <string name="humidity_label">UMIDADE</string>
+
+    <string name="command_title">Fale com o JARVIS</string>
+    <string name="command_hint">Ex.: Jarvis, abra o navegador</string>
+    <string name="command_send">ENVIAR</string>
+    <string name="command_listen">OUVIR NO PC</string>
+    <string name="command_cancel">CANCELAR</string>
+
+    <string name="presence_title">Presença</string>
+    <string name="presence_now">VERIFICAR AGORA</string>
+    <string name="presence_explain">O JARVIS só pede sua localização quando você toca em verificar. A coordenada é arredondada no servidor e nunca é guardada no telefone.</string>
+
+    <string name="last_response">Última resposta</string>
+    <string name="settings_title">Servidor</string>
+    <string name="settings_base_url">Endereço do JARVIS (Tailscale ou rede local)</string>
+    <string name="settings_device_name">Nome deste aparelho</string>
+    <string name="settings_save">SALVAR</string>
+    <string name="settings_battery_saver">Modo econômico (menos atualizações)</string>
+
+    <string name="diag_title">Diagnóstico</string>
+</resources>

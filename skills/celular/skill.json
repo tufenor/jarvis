@@ -1,0 +1,6 @@
+{
+  "nome": "celular",
+  "descricao": "Envia ordens para o aparelho companheiro do usuário (fala no celular, mostra notificação)",
+  "ativa": true,
+  "permitido": []
+}

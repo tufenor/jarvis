@@ -1,0 +1,6 @@
+{
+  "nome": "tela",
+  "descricao": "Lê o conteúdo visível na tela (Claude Vision) e controla mouse e teclado por coordenadas",
+  "ativa": true,
+  "permitido": []
+}

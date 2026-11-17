@@ -1,0 +1,6 @@
+{
+  "nome": "programas",
+  "descricao": "Procura, instala e atualiza programas pelo winget (catálogo oficial da Microsoft)",
+  "ativa": true,
+  "permitido": []
+}

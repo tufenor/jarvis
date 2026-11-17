@@ -1,0 +1,6 @@
+{
+  "nome": "comando",
+  "descricao": "Roda qualquer comando do Windows, sempre com confirmação falada",
+  "ativa": true,
+  "permitido": []
+}

@@ -1,0 +1,23 @@
+{
+  "minutos_sem_mexer": 20,
+  "limite_cpu_porcento": 20,
+  "limite_rede_kbps": 150,
+  "minutos_de_calmaria": 5,
+  "processos_protegidos": [
+    "ffmpeg.exe",
+    "handbrake.exe",
+    "blender.exe",
+    "obs64.exe",
+    "7zg.exe",
+    "winrar.exe",
+    "qbittorrent.exe",
+    "python.exe",
+    "node.exe",
+    "java.exe",
+    "vlc.exe",
+    "mpc-hc64.exe",
+    "steam.exe"
+  ],
+  "respeitar_pedidos_do_windows": true,
+  "intervalo_checagem_segundos": 30
+}

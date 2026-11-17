@@ -1,0 +1,6 @@
+{
+  "nome": "arquivos",
+  "descricao": "Procura, abre, cria e manda arquivos para a lixeira",
+  "ativa": true,
+  "permitido": []
+}
