@@ -32,6 +32,10 @@ Projeto em desenvolvimento. Este repositório é o código-fonte modular — nã
 3. **Falha explicada.** Todo erro precisa de log que diga o que aconteceu, não só que falhou.
 4. **Modular.** Cada habilidade pode ser desligada sem derrubar o resto.
 
+## Como sugerir código
+
+Encontrou uma melhoria, integração ou teste que faria sentido aqui? Abra uma [issue de ideia](../../issues/new?template=feature_request.yml). Para um defeito, use o [modelo de bug](../../issues/new?template=bug_report.yml). A [guia de contribuição](CONTRIBUTING.md) explica o que testar e quais dados nunca devem ser publicados.
+
 ## Rodando o núcleo
 
 ```bash

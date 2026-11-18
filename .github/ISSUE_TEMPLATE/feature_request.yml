@@ -1,0 +1,44 @@
+name: Ideia de código ou melhoria
+description: Proponha uma funcionalidade, integração, teste ou melhoria de experiência.
+title: "[IDEIA] "
+labels: ["ideia", "triagem"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por ajudar o JARVIS. Não inclua segredos, logs privados ou identificadores reais de dispositivos.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problema ou oportunidade
+      description: Que situação você quer melhorar? Inclua um exemplo reproduzível, se houver.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Ideia de solução
+      description: Descreva o comportamento desejado sem presumir uma implementação específica.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Área
+      options:
+        - Núcleo Python/API
+        - Interface web
+        - Android
+        - ESP32/firmware
+        - Integração
+        - Segurança
+        - Documentação/testes
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Como saberemos que funcionou?
+      description: Escreva critérios de aceite ou um teste simples.
+    validations:
+      required: true

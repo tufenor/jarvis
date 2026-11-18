@@ -1,0 +1,38 @@
+name: Relatar um problema
+description: Relate um comportamento incorreto com passos reproduzíveis.
+title: "[BUG] "
+labels: ["bug", "triagem"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Remova tokens, endereços, nomes, capturas privadas e identificadores de hardware antes de publicar.
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passos para reproduzir
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: O que esperava
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: O que aconteceu
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Ambiente
+      description: Informe apenas sistema, versão e hardware genérico; nunca identificadores pessoais.
+    validations:
+      required: true
